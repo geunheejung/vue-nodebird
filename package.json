@@ -1,0 +1,8 @@
+{
+  "name": "vue-nodebird",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/geunheejung/vue-nodebird.git",
+  "author": "geunheejung <geunhee0212@gmail.com>",
+  "license": "MIT"
+}
