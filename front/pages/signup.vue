@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { userActions } from "~/store";
 export default {
   head() {
     return {
@@ -60,24 +61,39 @@ export default {
   data() {
     return {
       valid: false,
-      userId: "",
+      userId: "a@a.com",
       userIdRules: [(v) => !!v || "이메일은 필수입니다."],
-      nickname: "",
+      nickname: "aa",
       nicknameRules: [(v) => !!v || "닉네임은 필수입니다."],
-      password: "",
+      password: "111",
       passwordRules: [(v) => !!v || "비밀번호는 필수입니다."],
-      passwordCheck: "",
+      passwordCheck: "111",
       passwordCheckRules: [
         (v) => !!v || "비밀번호 확인은 필수입니다.",
         (v) => v === this.password || "비밀번호가 일치하지 않습니다.",
       ],
-      terms: false,
+      terms: true,
       termsRules: [(v) => !!v || "약관에 동의해야 합니다."],
     };
   },
   methods: {
-    onSubmitForm() {
-      const isValid = this.$refs.form.validate();
+    async onSubmitForm() {
+      try {
+        const { userId, nickname, password, terms } = this;
+        await this.$store.dispatch({
+          type: userActions.SIGN_UP,
+          payload: {
+            userId,
+            nickname,
+            password,
+            terms,
+          },
+        });
+
+        await this.$router.replace("/");
+      } catch (error) {
+
+      }
     },
   },
 };
