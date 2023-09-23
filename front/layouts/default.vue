@@ -16,16 +16,26 @@
             hide-details
             :style="{ display: 'flex', alignItems: 'center' }"
           />
-          <v-btn text nuxt to="/profile">
+          <v-btn
+            text
+            nuxt
+            to="/profile"
+            :style="{ display: 'flex', alignItems: 'center' }"
+          >
             <div>프로필</div>
           </v-btn>
-          <v-btn text nuxt to="/signup">
+          <v-btn
+            text
+            nuxt
+            to="/signup"
+            :style="{ display: 'flex', alignItems: 'center' }"
+          >
             <div>회원가입</div>
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
     </nav>
-    <v-row no-getters>
+    <v-row no>
       <v-col cols="12" md="4">
         <login-form></login-form>
       </v-col>
