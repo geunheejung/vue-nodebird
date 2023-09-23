@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <div>
+    <nav>
       <v-toolbar dark color="green">
         <v-toolbar-title>
-          <v-btn text nuxt to="/">
+          <v-btn text nuxt to="/" :align="'center'">
             <div>NodeBird</div>
           </v-btn>
         </v-toolbar-title>
@@ -24,10 +24,25 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-    </div>
+    </nav>
+    <v-row no-getters>
+      <v-col cols="12" md="4">
+        <login-form></login-form>
+      </v-col>
+      <v-col cols="12" md="8">
+        <nuxt />
+      </v-col>
+    </v-row>
   </v-app>
 </template>
 
-<script></script>
+<script>
+import LoginForm from "~/components/LoginForm";
+export default {
+  components: {
+    LoginForm,
+  },
+};
+</script>
 
 <style></style>

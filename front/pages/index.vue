@@ -1,11 +1,18 @@
 <template>
-  <div>Home</div>
+  <v-container>
+    <profile-card />
+    <profile-card />
+    <profile-card />
+    <profile-card />
+    <profile-card />
+  </v-container>
 </template>
 
 <script>
+import ProfileCard from "~/components/ProfileCard";
 export default {
-  async asyncData(context) {
-    return {};
+  components: {
+    ProfileCard,
   },
 };
 </script>
