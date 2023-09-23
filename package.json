@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "https://github.com/geunheejung/vue-nodebird.git",
   "author": "geunheejung <geunhee0212@gmail.com>",
+  "scripts": {
+    "front": "cd front && yarn dev"
+  },
   "license": "MIT"
 }

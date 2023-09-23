@@ -29,7 +29,7 @@
           >
             로그인
           </v-btn>
-          <v-btn class="white--text" nuxt to="/signup">회원가입</v-btn>
+          <v-btn nuxt to="/signup">회원가입</v-btn>
         </v-container>
       </v-form>
       <v-container v-else>

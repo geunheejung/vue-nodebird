@@ -1,11 +1,21 @@
 export const state = () => ({
-  me: null,
+  me: {
+    userId: "a@a.com",
+    password: "111",
+    isLogin: true,
+    nickname: "geuni",
+    terms: true,
+  },
 });
 
 export const MUTATION = {
   SET_ME: "SET_ME",
   LOGIN: "LOGIN",
   LOGOUT: "LOGOUT",
+};
+
+export const getters = {
+  isLogin: ({ me }) => me && me.isLogin,
 };
 export const mutations = {
   [MUTATION.SET_ME](state, payload) {
@@ -31,9 +41,12 @@ export const actions = {
     ctx.commit(MUTATION.SET_ME, payload);
   },
   async [ACTION.LOGIN](ctx, payload) {
-    const { userId, password } = payload;
     const { me } = ctx.state;
-    debugger;
+
+    if (!me) return Error("회원가입 하세요");
+
+    const { userId, password } = payload;
+
     if (me.userId !== userId || me.password !== password) {
       return Error("계정이 틀렸습니다.");
     }
