@@ -63,7 +63,7 @@ export default {
       valid: false,
       userId: "a@a.com",
       userIdRules: [(v) => !!v || "이메일은 필수입니다."],
-      nickname: "aa",
+      nickname: "a1",
       nicknameRules: [(v) => !!v || "닉네임은 필수입니다."],
       password: "111",
       passwordRules: [(v) => !!v || "비밀번호는 필수입니다."],
@@ -91,9 +91,7 @@ export default {
         });
 
         await this.$router.replace("/");
-      } catch (error) {
-
-      }
+      } catch (error) {}
     },
   },
 };

@@ -75,6 +75,7 @@ export default {
       this.$store.dispatch(userActions.LOGOUT);
     },
   },
+  created() {},
 };
 </script>
 

@@ -16,6 +16,7 @@
             hide-details
             :style="{ display: 'flex', alignItems: 'center' }"
           />
+
           <v-btn
             text
             nuxt
@@ -47,10 +48,27 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
+import { userActions } from "~/store";
 import LoginForm from "~/components/LoginForm";
+
 export default {
   components: {
     LoginForm,
+  },
+  data() {
+    return { searchKeyword: "" };
+  },
+  computed: {
+    ...mapState({ searchUsers: "user/searchUsers" }),
+    ...mapGetters({ isLogin: "user/isLogin" }),
+  },
+  methods: {
+    onSearchInput() {
+      this.$store.dispatch(userActions.SEARCH_USER, {
+        nickname: this.searchKeyword.trim(),
+      });
+    },
   },
 };
 </script>

@@ -20,14 +20,33 @@
 
       <v-card style="margin-bottom: 20px">
         <v-container>
+          <search
+            :list="filteredUsers"
+            :target="'nickname'"
+            :filtered="user.followingList"
+            @onClickItem="handleAddFollowing"
+          />
+        </v-container>
+        <v-container>
           <v-subheader>팔로잉</v-subheader>
-          <FollowList />
+          <template v-if="user.followingList.length">
+            <FollowList
+              v-for="following in user.followingList"
+              :key="following.id"
+              :user="following"
+              @onRemoveClick="handleRemoveFollowing"
+            >
+              <template v-slot:text>
+                {{ following.nickname }}
+              </template>
+            </FollowList>
+          </template>
         </v-container>
       </v-card>
       <v-card style="margin-bottom: 20px">
         <v-container>
           <v-subheader>팔로워</v-subheader>
-          <FollowList />
+          <!--          <FollowList />-->
         </v-container>
       </v-card>
     </v-container>
@@ -37,20 +56,24 @@
 <script>
 import FollowList from "~/components/FollowList";
 import { userActions } from "@/store";
+import Search from "~/components/Search";
 export default {
   asyncData({ store }) {
     const {
       state: {
-        user: { me },
+        user: { me, users },
       },
     } = store;
+
     return {
       user: me,
+      users,
       nickname: me.nickname,
     };
   },
   components: {
     FollowList,
+    Search,
   },
   head() {
     return {
@@ -61,6 +84,7 @@ export default {
     return {
       valid: false,
       user: {},
+      users: [],
       success: false,
       successMessages: "",
       nickname: "",
@@ -75,13 +99,27 @@ export default {
       ],
     };
   },
+  computed: {
+    filteredUsers: ({ users, user }) =>
+      users.filter((row) => row.id !== user.id),
+  },
   methods: {
     async onSubmitForm() {
       await this.$store.dispatch(userActions.UPDATE_USER, {
+        id: this.user.id,
         nickname: this.nickname,
       });
       this.success = true;
       this.successMessages = "이름 변경 완료";
+    },
+    handleAddFollowing(user) {
+      this.$store.dispatch(userActions.SET_FOLLOWING, {
+        user,
+        isRemove: false,
+      });
+    },
+    handleRemoveFollowing(user) {
+      this.$store.dispatch(userActions.SET_FOLLOWING, { user, isRemove: true });
     },
   },
 };
