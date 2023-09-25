@@ -7,6 +7,7 @@ class Post {
     this.content = content;
     this.user = user;
     this.images = images;
+
     this.createdAt = Date.now();
     this.updatedAt = Date.now();
     this.commentList = {};

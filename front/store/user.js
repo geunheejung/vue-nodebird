@@ -12,6 +12,7 @@ export const MUTATION = {
   SET_ME: "SET_ME",
   LOGIN: "LOGIN",
   LOGOUT: "LOGOUT",
+  UPDATE_USER: "UPDATE_USER",
 };
 
 export const getters = {
@@ -27,12 +28,18 @@ export const mutations = {
   [MUTATION.LOGOUT](state, payload) {
     state.me.isLogin = false;
   },
+  [MUTATION.UPDATE_USER](state, payload) {
+    const { nickname } = payload;
+
+    state.me.nickname = nickname;
+  },
 };
 
 export const ACTION = {
   SIGN_UP: "SIGN_UP",
   LOGIN: "LOGIN",
   LOGOUT: "LOGOUT",
+  UPDATE_USER: "UPDATE_USER",
 };
 export const actions = {
   async [ACTION.SIGN_UP](ctx, { payload }) {
@@ -53,5 +60,8 @@ export const actions = {
   },
   async [ACTION.LOGOUT](ctx, payload) {
     ctx.commit(MUTATION.LOGOUT);
+  },
+  async [ACTION.UPDATE_USER](ctx, payload) {
+    ctx.commit(MUTATION.UPDATE_USER, payload);
   },
 };
