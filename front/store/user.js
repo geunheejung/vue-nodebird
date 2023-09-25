@@ -19,7 +19,6 @@ export const getters = {
 };
 export const mutations = {
   [MUTATION.SET_ME](state, payload) {
-    debugger;
     state.me = { ...payload, isLogin: false };
   },
   [MUTATION.LOGIN](state, payload) {
@@ -37,7 +36,6 @@ export const ACTION = {
 };
 export const actions = {
   async [ACTION.SIGN_UP](ctx, { payload }) {
-    debugger;
     ctx.commit(MUTATION.SET_ME, payload);
   },
   async [ACTION.LOGIN](ctx, payload) {

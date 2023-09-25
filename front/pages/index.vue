@@ -3,31 +3,28 @@
     <v-container v-if="isLogin">
       <post-form />
     </v-container>
-    <v-container>
-      <profile-card />
-      <profile-card />
-      <profile-card />
-      <profile-card />
-      <profile-card />
-    </v-container>
+    <v-card>
+      <post-list :post-list="posts" />
+    </v-card>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import ProfileCard from "~/components/ProfileCard";
+import { mapGetters, mapState } from "vuex";
 import PostForm from "~/components/PostForm";
+import PostList from "~/components/PostList";
 export default {
   components: {
-    ProfileCard,
     PostForm,
+    PostList,
   },
   computed: {
+    ...mapState({
+      posts: (state) => Object.values(state.post.postObj),
+    }),
     ...mapGetters({ isLogin: "user/isLogin" }),
   },
-  created() {
-    console.log(this.$store);
-  },
+  created() {},
 };
 </script>
 

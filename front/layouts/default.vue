@@ -35,7 +35,7 @@
         </v-toolbar-items>
       </v-toolbar>
     </nav>
-    <v-row no>
+    <v-row no-gutters align-content="start">
       <v-col cols="12" md="4">
         <login-form></login-form>
       </v-col>
