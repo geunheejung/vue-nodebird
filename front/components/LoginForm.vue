@@ -60,19 +60,26 @@ export default {
     }),
   },
   methods: {
-    onSubmitForm() {
+    async onSubmitForm() {
       const isValid = this.$refs.form.validate();
       if (!isValid) {
         return;
       }
 
-      this.$store.dispatch(userActions.LOGIN, {
+      await this.$store.dispatch(userActions.LOGIN, {
         userId: this.userId,
         password: this.password,
       });
+
+      await this.$router.replace("/");
     },
-    onLogout() {
-      this.$store.dispatch(userActions.LOGOUT);
+    async onLogout() {
+      try {
+        await this.$store.dispatch(userActions.LOGOUT);
+      } catch (error) {
+      } finally {
+        this.$router.replace("/");
+      }
     },
   },
   created() {},

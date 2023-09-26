@@ -51,7 +51,7 @@ export default {
   computed: {
     listItems(state) {
       if (!this.filtered.length) return state.result;
-      const filterdList = this.list.filter((listItem) => {
+      const filterdList = this.result.filter((listItem) => {
         return this.filtered.every((filterItem) => {
           return filterItem.id !== listItem.id;
         });

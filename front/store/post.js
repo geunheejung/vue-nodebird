@@ -2,27 +2,15 @@ import { uuid } from "vue-uuid";
 import Vue from "vue";
 
 class Post {
-  constructor({ content, user, images }) {
-    this.id = `POST: ${Date.now()}`;
+  constructor({ content, user, images, postId }) {
+    this.id = uuid.v4();
+    this.postId = postId;
     this.content = content;
     this.user = user;
     this.images = images;
-
     this.createdAt = Date.now();
     this.updatedAt = Date.now();
     this.commentList = {};
-  }
-}
-
-class Comment {
-  constructor({ content, user, postId }) {
-    this.id = `COMMENT ${Date.now()}`;
-    this.content = content;
-    this.user = user;
-    this.postId = postId;
-    this.commentList = {};
-    this.createdAt = Date.now();
-    this.updatedAt = Date.now();
   }
 }
 
@@ -116,17 +104,15 @@ export const actions = {
     ctx.commit(MUTATION.SET_POST, newPost);
   },
   async [ACTION.REMOVE_POST](ctx, payload) {
-    debugger;
     ctx.commit(MUTATION.REMOVE_POST, payload);
   },
   async [ACTION.UPDATE_POST](ctx, payload) {
-    debugger;
     ctx.commit(MUTATION.UPDATE_POST, payload);
   },
   async [ACTION.ADD_COMMENT](ctx, payload) {
     const { content, postId, user } = payload;
 
-    const newComment = new Comment({ content, postId, user });
+    const newComment = new Post({ content, postId, user });
 
     ctx.commit(MUTATION.SET_COMMENT, newComment);
   },

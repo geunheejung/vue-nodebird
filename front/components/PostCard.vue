@@ -26,7 +26,7 @@
       <v-btn text color="orange" @click="onWriteCommentClick">
         <v-icon>mdi-comment-outline</v-icon>
       </v-btn>
-      <v-menu offset-y open-on-hover>
+      <v-menu offset-y open-on-hover v-if="isPossibleEdit">
         <template v-slot:activator="{ on }">
           <v-btn text color="orange" v-on="on">
             <v-icon>mdi-dots-horizontal</v-icon>
@@ -54,6 +54,7 @@
 <script>
 import { postActions } from "~/store";
 import PostForm from "~/components/PostForm";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -63,6 +64,14 @@ export default {
     post: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    ...mapState({ me: (state) => state.user.me }),
+    isPossibleEdit(state) {
+      if (!this.me) return false;
+
+      return this.me.id === this.post.user.id;
     },
   },
   data() {
@@ -108,7 +117,6 @@ export default {
     },
     async onEditPostSubmit(content) {
       try {
-        debugger;
         await this.$store.dispatch(postActions.UPDATE_POST, {
           id: this.post.id,
           content: content,
@@ -118,6 +126,12 @@ export default {
         console.error(error);
       }
     },
+  },
+  handleLikeClick() {
+    // 1. 사용자는 자신이 좋아요를 누른 게시글은 좋아요로 표시 되어야 함
+    // 2. 게시글은 자신을 좋아요 누른 사용자들을 알아야 함
+    // 3. 좋아요의 개수는 (2)번의 개수
+    // 4. 팔로우랑 비슷하네
   },
 };
 </script>

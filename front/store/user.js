@@ -79,25 +79,38 @@ export const mutations = {
 
     state.users[id].nickname = nickname;
   },
+  /**
+   * 팔로우를 하는 대상의 팔로워로 자신을 추가한다.
+   * 자신의 팔로잉 리스트에 팔로우 하는 대상을 추가한다.
+   * @param state
+   * @param payload
+   */
   [MUTATION.SET_FOLLOWING](state, payload) {
     const { user, isRemove } = payload;
     const { id } = state.me;
-    const index = state.users.findIndex((user) => user.id === id);
 
-    const { followingList } = state.users[index];
+    const followingIndex = state.users.findIndex((user) => user.id === id);
+    const followerIndex = state.users.findIndex((row) => row.id === user.id);
+
+    const { followingList } = state.users[followingIndex];
+    const { followerList } = state.users[followerIndex];
 
     if (isRemove) {
       const followingListIndex = followingList.findIndex(
         (row) => row.id === user.id
       );
 
-      debugger;
-      state.users[index].followingList.splice(followingListIndex, 1);
+      const followerListIndex = followerList.findIndex(
+        (row) => row.id === state.me.id
+      );
+
+      state.users[followingIndex].followingList.splice(followingListIndex, 1);
+      state.users[followerListIndex].followerList.splice(followerListIndex, 1);
       return;
     }
 
-    debugger;
-    state.users[index].followingList.push(user);
+    state.users[followerIndex].followerList.push(state.me);
+    state.users[followingIndex].followingList.push(user);
   },
 };
 

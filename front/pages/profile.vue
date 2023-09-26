@@ -30,7 +30,7 @@
         <v-container>
           <v-subheader>팔로잉</v-subheader>
           <template v-if="user.followingList.length">
-            <FollowList
+            <FollowingList
               v-for="following in user.followingList"
               :key="following.id"
               :user="following"
@@ -39,14 +39,23 @@
               <template v-slot:text>
                 {{ following.nickname }}
               </template>
-            </FollowList>
+            </FollowingList>
           </template>
         </v-container>
       </v-card>
       <v-card style="margin-bottom: 20px">
         <v-container>
           <v-subheader>팔로워</v-subheader>
-          <!--          <FollowList />-->
+          <FollowerList
+            v-for="follower in user.followerList"
+            :key="follower.id"
+            :user="follower"
+            @onRemoveClick="handleRemoveFollowing"
+          >
+            <template v-slot:text>
+              {{ follower.nickname }}
+            </template>
+          </FollowerList>
         </v-container>
       </v-card>
     </v-container>
@@ -72,7 +81,8 @@ export default {
     };
   },
   components: {
-    FollowList,
+    FollowingList: FollowList,
+    FollowerList: FollowList,
     Search,
   },
   head() {
