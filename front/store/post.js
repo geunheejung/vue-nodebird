@@ -7,6 +7,7 @@ class Post {
     this.postId = postId;
     this.content = content;
     this.user = user;
+    this.likes = [];
     this.images = images;
     this.createdAt = Date.now();
     this.updatedAt = Date.now();
@@ -30,6 +31,7 @@ export const MUTATION = {
   REMOVE_POST: "REMOVE_POST",
   UPDATE_POST: "UPDATE_POST",
   SET_COMMENT: "SET_COMMENT",
+  UPDATE_LKIES: "UPDATE_LKIES",
 };
 export const mutations = {
   [MUTATION.SET_POST](state, post) {
@@ -79,6 +81,18 @@ export const mutations = {
 
     Vue.set(state.commentObj[postId].commentList, id, newComment);
   },
+  [MUTATION.UPDATE_LKIES](state, payload) {
+    const { userId, postId } = payload;
+
+    const index = state.postObj[postId].likes.findIndex((id) => id === userId);
+
+    if (index === -1) {
+      state.postObj[postId].likes.push(userId);
+      return;
+    }
+
+    state.postObj[postId].likes.splice(index, 1);
+  },
 };
 
 export const ACTION = {
@@ -86,6 +100,7 @@ export const ACTION = {
   REMOVE_POST: "REMOVE_POST",
   UPDATE_POST: "UPDATE_POST",
   ADD_COMMENT: "ADD_COMMENT",
+  UPDATE_LKIES: "UPDATE_LKIES",
 };
 export const actions = {
   async [ACTION.ADD_POST](ctx, payload) {
@@ -115,5 +130,9 @@ export const actions = {
     const newComment = new Post({ content, postId, user });
 
     ctx.commit(MUTATION.SET_COMMENT, newComment);
+  },
+  async [ACTION.UPDATE_LKIES](ctx, payload) {
+    debugger;
+    ctx.commit(MUTATION.UPDATE_LKIES, payload);
   },
 };
