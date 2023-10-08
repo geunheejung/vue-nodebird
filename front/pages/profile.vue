@@ -29,9 +29,8 @@
         </v-container>
         <v-container>
           <v-subheader>팔로잉</v-subheader>
-          <template v-if="user.followingList.length">
-            <FollowingList
-              v-for="following in user.followingList"
+          <FollowingList
+              v-for="following in Array.from(user.followingList)"
               :key="following.id"
               :user="following"
               @onRemoveClick="handleRemoveFollowing"
@@ -40,14 +39,13 @@
                 {{ following.nickname }}
               </template>
             </FollowingList>
-          </template>
         </v-container>
       </v-card>
       <v-card style="margin-bottom: 20px">
         <v-container>
           <v-subheader>팔로워</v-subheader>
           <FollowerList
-            v-for="follower in user.followerList"
+            v-for="follower in followerList"
             :key="follower.id"
             :user="follower"
             @onRemoveClick="handleRemoveFollowing"
@@ -112,6 +110,13 @@ export default {
   computed: {
     filteredUsers: ({ users, user }) =>
       users.filter((row) => row.id !== user.id),
+      followingList() {
+        return this.user.followingList.values() 
+      },
+      followerList() {
+        return this.user.followerList.values()
+      },
+
   },
   methods: {
     async onSubmitForm() {
@@ -129,6 +134,7 @@ export default {
       });
     },
     handleRemoveFollowing(user) {
+      
       this.$store.dispatch(userActions.SET_FOLLOWING, { user, isRemove: true });
     },
   },

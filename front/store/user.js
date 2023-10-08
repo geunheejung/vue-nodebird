@@ -6,8 +6,8 @@ class Users {
     this.userId = userId;
     this.nickname = nickname;
     this.password = password;
-    this.followingList = [];
-    this.followerList = [];
+    this.followingList = new Map();
+    this.followerList = new Map();
     this.terms = terms;
     this.isLogin = true;
   }
@@ -86,31 +86,21 @@ export const mutations = {
    * @param payload
    */
   [MUTATION.SET_FOLLOWING](state, payload) {
-    const { user, isRemove } = payload;
-    const { id } = state.me;
-
-    const followingIndex = state.users.findIndex((user) => user.id === id);
-    const followerIndex = state.users.findIndex((row) => row.id === user.id);
-
-    const { followingList } = state.users[followingIndex];
-    const { followerList } = state.users[followerIndex];
-
-    if (isRemove) {
-      const followingListIndex = followingList.findIndex(
-        (row) => row.id === user.id
-      );
-
-      const followerListIndex = followerList.findIndex(
-        (row) => row.id === state.me.id
-      );
-
-      state.users[followingIndex].followingList.splice(followingListIndex, 1);
-      state.users[followerListIndex].followerList.splice(followerListIndex, 1);
-      return;
+    const { user: targetUser, isRemove } = payload;
+    const { me, users } = state;
+    
+    
+    /**
+     * 추가일 경우
+     * 1. targetUser의 팔로워 목록에 추가한다.
+     * 2. 현재 로그인한 사용자의 팔로잉 목록에 추가한다.
+     */
+    
+    if (!isRemove) {
+      // 타겟 유저의 팔로워 목록에 현재 로그인한 사용자를 추가한다.
+      state.users[users.findIndex(row => row.id === targetUser.id)].followerList.set(me.id, me);
+      state.users[users.findIndex(row => row.id === me.id)].followingList.set(targetUser.id, targetUser);
     }
-
-    state.users[followerIndex].followerList.push(state.me);
-    state.users[followingIndex].followingList.push(user);
   },
 };
 

@@ -37,7 +37,7 @@ export default {
       required: true,
     },
     filtered: {
-      type: Array,
+      type: Map,
       required: false,
     },
   },
@@ -50,14 +50,14 @@ export default {
   },
   computed: {
     listItems(state) {
-      if (!this.filtered.length) return state.result;
-      const filterdList = this.result.filter((listItem) => {
-        return this.filtered.every((filterItem) => {
-          return filterItem.id !== listItem.id;
-        });
+
+      if (!this.filtered.size) return state.result;
+    
+      const filteredList = this.result.filter((listItem) => {
+        return !this.filtered.get(listItem.id);
       });
 
-      return filterdList;
+      return filteredList;
     },
   },
   methods: {
@@ -67,6 +67,7 @@ export default {
         return;
       }
 
+      // list에서 필터해서 매칭되는 아이템 있으면 매칭되는 아이템 반환하는듯.
       this.result = this.list.filter((row) =>
         row[this.target].includes(this.keyword)
       );
