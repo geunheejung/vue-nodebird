@@ -42,7 +42,7 @@
         </v-container>
       </v-card>
       <v-card style="margin-bottom: 20px">
-        <v-container>
+        <v-container> 
           <v-subheader>팔로워</v-subheader>
           <FollowerList
             v-for="follower in followerList"
